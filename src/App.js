@@ -108,11 +108,6 @@ function App() {
               cart={cart}
               onAdd={addToCart}
               onRemove={removeFromCart}
-              subtotal={subtotal}
-              tax={tax}
-              shipping={shipping}
-              total={total}
-              onClearCart={clearCart}
             />
           }
         />

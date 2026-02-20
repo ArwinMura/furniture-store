@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import ProductCard from "../components/ProductCard";
-import CartSummary from "../components/CartSummary";
+
 import Controls from "../components/Controls";
 
 function Home({
@@ -8,11 +8,6 @@ function Home({
   cart,
   onAdd,
   onRemove,
-  subtotal,
-  tax,
-  shipping,
-  total,
-  onClearCart,
 }) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
@@ -44,49 +39,38 @@ function Home({
   }, [products, query, category, sort]);
 
   return (
-    <div className="layout">
-      <div>
-        <Controls
-          query={query}
-          onQueryChange={setQuery}
-          category={category}
-          onCategoryChange={setCategory}
-          sort={sort}
-          onSortChange={setSort}
-          categories={categories}
-        />
+    <div>
+      <Controls
+        query={query}
+        onQueryChange={setQuery}
+        category={category}
+        onCategoryChange={setCategory}
+        sort={sort}
+        onSortChange={setSort}
+        categories={categories}
+      />
 
-        <div className="products-grid">
-          {visibleProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              quantity={cart[product.id] ?? 0}
-              onAdd={() => onAdd(product.id)}
-              onRemove={() => onRemove(product.id)}
-            />
-          ))}
-        </div>
+      <div className="products-grid">
+        {visibleProducts.map((product) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            quantity={cart[product.id] ?? 0}
+            onAdd={() => onAdd(product.id)}
+            onRemove={() => onRemove(product.id)}
+          />
+        ))}
+      </div>
 
-        {visibleProducts.length === 0 && (
-          <div className="empty">
+      {visibleProducts.length === 0 && (
+        <div className="empty">
           <h3>No results found</h3>
           <p>Try clearing the search or selecting “All” categories.</p>
-          </div>
-        )}
-      </div>
-
-      <div className="sidebar">
-        <CartSummary
-          subtotal={subtotal}
-          tax={tax}
-          shipping={shipping}
-          total={total}
-          onClearCart={onClearCart}
-        />
-      </div>
+        </div>
+      )}
     </div>
   );
+
 }
 
 export default Home;
