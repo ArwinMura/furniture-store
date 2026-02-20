@@ -1,6 +1,7 @@
 import "./App.css";
 import { Link, Route, Routes } from "react-router-dom";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+
 
 import products from "./data/products";
 import Home from "./pages/Home";
@@ -9,7 +10,15 @@ import CartPage from "./pages/CartPage";
 
 function App() {
   // Cart state (shared across pages)
-  const [cart, setCart] = useState({});
+  const [cart, setCart] = useState(() => {
+    try {
+      const saved = localStorage.getItem("cart");
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
+
 
   function addToCart(productId) {
     setCart((prev) => {
@@ -33,6 +42,10 @@ function App() {
   function clearCart() {
     setCart({});
   }
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
 
   const cartCount = useMemo(
     () => Object.values(cart).reduce((sum, qty) => sum + qty, 0),
