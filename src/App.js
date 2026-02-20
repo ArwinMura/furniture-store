@@ -7,6 +7,9 @@ import products from "./data/products";
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
 import CartPage from "./pages/CartPage";
+import Checkout from "./pages/Checkout";
+import Success from "./pages/Success";
+
 
 function App() {
   // Cart state (shared across pages)
@@ -132,6 +135,23 @@ function App() {
             />
           }
         />
+
+        <Route
+          path="/checkout"
+          element={
+            <Checkout
+              products={products}
+              cart={cart}
+              subtotal={subtotal}
+              tax={tax}
+              shipping={shipping}
+              total={total}
+              onClearCart={clearCart}
+            />
+          }
+        />
+
+        <Route path="/success" element={<Success />} />
       </Routes>
     </div>
   );

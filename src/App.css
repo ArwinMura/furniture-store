@@ -181,3 +181,153 @@ body {
   }
 }
 
+/* Cart page checkout button */
+.checkout-btn {
+  margin-top: 14px;
+  border: none;
+  background: #111;
+  color: white;
+  padding: 12px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.checkout-btn:hover {
+  background: #333;
+}
+
+/* Checkout page */
+.checkout-title {
+  margin: 12px 0 16px 0;
+}
+
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 20px;
+  align-items: start;
+}
+
+.checkout-form,
+.order-summary {
+  background: white;
+  border: 1px solid #e6e6e6;
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.field-label {
+  font-size: 12px;
+  font-weight: 800;
+  color: #444;
+}
+
+.field-input {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 14px;
+  outline: none;
+}
+
+.field-input:focus {
+  border-color: #bbb;
+}
+
+.field-input--error {
+  border-color: #d33;
+}
+
+.field-error {
+  color: #d33;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.place-order-btn {
+  width: 100%;
+  border: none;
+  background: #111;
+  color: white;
+  padding: 12px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.place-order-btn:hover {
+  background: #333;
+}
+
+.order-summary__title {
+  margin: 0 0 10px 0;
+}
+
+.order-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.order-item,
+.order-row,
+.order-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.order-divider {
+  height: 1px;
+  background: #eee;
+  margin: 12px 0;
+}
+
+.order-total {
+  font-weight: 900;
+  font-size: 15px;
+}
+
+.error-text {
+  color: #d33;
+  font-weight: 800;
+}
+
+/* Success page */
+.success {
+  background: white;
+  border: 1px solid #e6e6e6;
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.success-link {
+  display: inline-block;
+  margin-top: 10px;
+  text-decoration: none;
+  font-weight: 900;
+  color: #111;
+}
+
+@media (max-width: 900px) {
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+}
