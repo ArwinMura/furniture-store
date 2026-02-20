@@ -1,4 +1,3 @@
-/* Reset some default browser spacing */
 body {
   margin: 0;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -6,19 +5,18 @@ body {
   color: #111;
 }
 
-/* Main wrapper */
 .app {
   padding: 24px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-/* Header section */
 .app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
+  gap: 12px;
 }
 
 .app-header h1 {
@@ -26,21 +24,41 @@ body {
   font-size: 24px;
 }
 
-/* Cart badge */
 .cart-badge {
   background-color: #111;
   color: white;
   padding: 10px 14px;
   border-radius: 999px;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 14px;
 }
 
-/* Products layout */
-.products-grid {
+.layout {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: 1fr 300px;
   gap: 20px;
+  align-items: start;
 }
+
+.products-grid {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.sidebar {
+  position: sticky;
+  top: 20px;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    position: static;
+  }
+}
+
 
 
