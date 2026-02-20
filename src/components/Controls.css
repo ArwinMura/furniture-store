@@ -1,0 +1,46 @@
+.controls {
+    display: grid;
+    grid-template-columns: 1fr 220px 220px;
+    gap: 12px;
+    margin-bottom: 18px;
+    align-items: end;
+  }
+
+  .control {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .control__label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #444;
+  }
+
+  .control__input,
+  .control__select {
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-size: 14px;
+    outline: none;
+  }
+
+  .control__input:focus,
+  .control__select:focus {
+    border-color: #bbb;
+  }
+
+  @media (max-width: 900px) {
+    .controls {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .controls {
+      grid-template-columns: 1fr;
+    }
+  }

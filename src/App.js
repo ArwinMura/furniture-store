@@ -2,29 +2,29 @@ import "./App.css";
 import products from "./data/products";
 import ProductCard from "./components/ProductCard";
 import CartSummary from "./components/CartSummary";
+import Controls from "./components/Controls";
 import { useMemo, useState } from "react";
 
 function App() {
+  // Cart state (Milestone 2)
   const [cart, setCart] = useState({});
 
   function addToCart(productId) {
-    setCart((prevCart) => {
-      const currentQty = prevCart[productId] ?? 0;
-      return { ...prevCart, [productId]: currentQty + 1 };
+    setCart((prev) => {
+      const current = prev[productId] ?? 0;
+      return { ...prev, [productId]: current + 1 };
     });
   }
 
   function removeFromCart(productId) {
-    setCart((prevCart) => {
-      const currentQty = prevCart[productId] ?? 0;
-
-      if (currentQty <= 1) {
-        const copy = { ...prevCart };
+    setCart((prev) => {
+      const current = prev[productId] ?? 0;
+      if (current <= 1) {
+        const copy = { ...prev };
         delete copy[productId];
         return copy;
       }
-
-      return { ...prevCart, [productId]: currentQty - 1 };
+      return { ...prev, [productId]: current - 1 };
     });
   }
 
@@ -32,22 +32,18 @@ function App() {
     setCart({});
   }
 
-  const cartCount = useMemo(() => {
-    return Object.values(cart).reduce((sum, qty) => sum + qty, 0);
-  }, [cart]);
+  const cartCount = useMemo(
+    () => Object.values(cart).reduce((sum, qty) => sum + qty, 0),
+    [cart]
+  );
 
-  // Subtotal: sum(price * qty) across cart
   const subtotal = useMemo(() => {
     return Object.entries(cart).reduce((sum, [productId, qty]) => {
-      const product = products.find((p) => p.id === Number(productId));
-      if (!product) return sum;
-      return sum + product.price * qty;
+      const p = products.find((x) => x.id === Number(productId));
+      return p ? sum + p.price * qty : sum;
     }, 0);
   }, [cart]);
 
-  // Simple rules for learning (you can change later):
-  // - tax = 13% of subtotal (common Ontario example, but just a demo rule)
-  // - shipping = $0 if subtotal >= 500, else $25 (demo rule)
   const tax = useMemo(() => subtotal * 0.13, [subtotal]);
 
   const shipping = useMemo(() => {
@@ -57,6 +53,46 @@ function App() {
 
   const total = useMemo(() => subtotal + tax + shipping, [subtotal, tax, shipping]);
 
+  // Milestone 3 UI state
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("All");
+  const [sort, setSort] = useState("featured");
+
+  // Build category list from products (All + unique categories)
+  const categories = useMemo(() => {
+    const set = new Set(products.map((p) => p.category));
+    return ["All", ...Array.from(set)];
+  }, []);
+
+  // Derived products: filter + search + sort
+  const visibleProducts = useMemo(() => {
+    const q = query.trim().toLowerCase();
+
+    // 1) Filter by search + category
+    let result = products.filter((p) => {
+      const matchesCategory = category === "All" || p.category === category;
+
+      const matchesQuery =
+        q === "" ||
+        p.name.toLowerCase().includes(q) ||
+        p.description.toLowerCase().includes(q);
+
+      return matchesCategory && matchesQuery;
+    });
+
+    // 2) Sort
+    if (sort === "price-asc") {
+      result = [...result].sort((a, b) => a.price - b.price);
+    } else if (sort === "price-desc") {
+      result = [...result].sort((a, b) => b.price - a.price);
+    } else if (sort === "name-asc") {
+      result = [...result].sort((a, b) => a.name.localeCompare(b.name));
+    }
+    // "featured" = leave in original order
+
+    return result;
+  }, [query, category, sort]);
+
   return (
     <div className="app">
       <header className="app-header">
@@ -64,17 +100,33 @@ function App() {
         <div className="cart-badge">🛒 {cartCount}</div>
       </header>
 
+      <Controls
+        query={query}
+        onQueryChange={setQuery}
+        category={category}
+        onCategoryChange={setCategory}
+        sort={sort}
+        onSortChange={setSort}
+        categories={categories}
+      />
+
       <div className="layout">
-        <div className="products-grid">
-          {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              quantity={cart[product.id] ?? 0}
-              onAdd={() => addToCart(product.id)}
-              onRemove={() => removeFromCart(product.id)}
-            />
-          ))}
+        <div>
+          <div className="products-grid">
+            {visibleProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                quantity={cart[product.id] ?? 0}
+                onAdd={() => addToCart(product.id)}
+                onRemove={() => removeFromCart(product.id)}
+              />
+            ))}
+          </div>
+
+          {visibleProducts.length === 0 && (
+            <p className="empty">No products match your search.</p>
+          )}
         </div>
 
         <div className="sidebar">
@@ -92,6 +144,4 @@ function App() {
 }
 
 export default App;
-
-
 

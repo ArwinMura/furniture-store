@@ -60,5 +60,8 @@ body {
   }
 }
 
-
+.empty {
+  margin-top: 18px;
+  color: #666;
+}
 
