@@ -78,3 +78,30 @@
   .product-button:hover {
     background-color: #333;
   }
+
+  .qty-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .qty-btn {
+    border: 1px solid #ddd;
+    background: white;
+    padding: 8px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+  }
+
+  .qty-btn.primary {
+    background: #111;
+    color: white;
+    border-color: #111;
+  }
+
+  .qty-number {
+    min-width: 18px;
+    text-align: center;
+    font-weight: 700;
+  }
