@@ -28,9 +28,11 @@ function CartPage({
         <h2 style={{ marginTop: 0 }}>Your Cart</h2>
 
         {cartItems.length === 0 ? (
-          <p>
-            Your cart is empty. <Link to="/">Go shopping</Link>
-          </p>
+          <div className="empty">
+            <h3>Your cart is empty</h3>
+            <p>Add some items from the shop to see them here.</p>
+            <Link to="/" className="success-link">Go shopping</Link>
+          </div>
         ) : (
           <>
             <div className="cart-list">

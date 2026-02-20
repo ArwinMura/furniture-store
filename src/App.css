@@ -331,3 +331,31 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* Active nav link */
+.nav-link--active {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Empty states */
+.empty {
+  margin-top: 18px;
+  background: white;
+  border: 1px solid #e6e6e6;
+  border-radius: 14px;
+  padding: 16px;
+  color: #444;
+}
+
+.empty h3 {
+  margin: 0 0 6px 0;
+}
+
+/* NotFound page */
+.notfound {
+  background: white;
+  border: 1px solid #e6e6e6;
+  border-radius: 14px;
+  padding: 18px;
+}

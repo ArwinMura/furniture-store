@@ -69,7 +69,10 @@ function Home({
         </div>
 
         {visibleProducts.length === 0 && (
-          <p className="empty">No products match your search.</p>
+          <div className="empty">
+          <h3>No results found</h3>
+          <p>Try clearing the search or selecting “All” categories.</p>
+          </div>
         )}
       </div>
 

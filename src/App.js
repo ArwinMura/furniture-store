@@ -1,5 +1,5 @@
 import "./App.css";
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, NavLink, Route, Routes } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 
 
@@ -9,6 +9,7 @@ import ProductDetails from "./pages/ProductDetails";
 import CartPage from "./pages/CartPage";
 import Checkout from "./pages/Checkout";
 import Success from "./pages/Success";
+import NotFound from "./pages/NotFound";
 
 
 function App() {
@@ -80,13 +81,22 @@ function App() {
         </Link>
 
         <nav className="nav">
-          <Link to="/" className="nav-link">
+          <NavLink
+            to="/"
+            className={({ isActive }) => (isActive ? "nav-link nav-link--active" : "nav-link")}
+            end
+          >
             Shop
-          </Link>
-          <Link to="/cart" className="nav-link cart-link">
+          </NavLink>
+
+          <NavLink
+            to="/cart"
+            className={({ isActive }) => (isActive ? "nav-link nav-link--active" : "nav-link")}
+          >
             🛒 {cartCount}
-          </Link>
+          </NavLink>
         </nav>
+
       </header>
 
       <Routes>
@@ -152,6 +162,8 @@ function App() {
         />
 
         <Route path="/success" element={<Success />} />
+        <Route path="*" element={<NotFound />} />
+
       </Routes>
     </div>
   );
