@@ -1,12 +1,14 @@
 import "./App.css";
-import products from "./data/products";
-import ProductCard from "./components/ProductCard";
-import CartSummary from "./components/CartSummary";
-import Controls from "./components/Controls";
+import { Link, Route, Routes } from "react-router-dom";
 import { useMemo, useState } from "react";
 
+import products from "./data/products";
+import Home from "./pages/Home";
+import ProductDetails from "./pages/ProductDetails";
+import CartPage from "./pages/CartPage";
+
 function App() {
-  // Cart state (Milestone 2)
+  // Cart state (shared across pages)
   const [cart, setCart] = useState({});
 
   function addToCart(productId) {
@@ -37,6 +39,7 @@ function App() {
     [cart]
   );
 
+  // Totals (so cart page + summary can reuse)
   const subtotal = useMemo(() => {
     return Object.entries(cart).reduce((sum, [productId, qty]) => {
       const p = products.find((x) => x.id === Number(productId));
@@ -53,95 +56,72 @@ function App() {
 
   const total = useMemo(() => subtotal + tax + shipping, [subtotal, tax, shipping]);
 
-  // Milestone 3 UI state
-  const [query, setQuery] = useState("");
-  const [category, setCategory] = useState("All");
-  const [sort, setSort] = useState("featured");
-
-  // Build category list from products (All + unique categories)
-  const categories = useMemo(() => {
-    const set = new Set(products.map((p) => p.category));
-    return ["All", ...Array.from(set)];
-  }, []);
-
-  // Derived products: filter + search + sort
-  const visibleProducts = useMemo(() => {
-    const q = query.trim().toLowerCase();
-
-    // 1) Filter by search + category
-    let result = products.filter((p) => {
-      const matchesCategory = category === "All" || p.category === category;
-
-      const matchesQuery =
-        q === "" ||
-        p.name.toLowerCase().includes(q) ||
-        p.description.toLowerCase().includes(q);
-
-      return matchesCategory && matchesQuery;
-    });
-
-    // 2) Sort
-    if (sort === "price-asc") {
-      result = [...result].sort((a, b) => a.price - b.price);
-    } else if (sort === "price-desc") {
-      result = [...result].sort((a, b) => b.price - a.price);
-    } else if (sort === "name-asc") {
-      result = [...result].sort((a, b) => a.name.localeCompare(b.name));
-    }
-    // "featured" = leave in original order
-
-    return result;
-  }, [query, category, sort]);
-
   return (
     <div className="app">
       <header className="app-header">
-        <h1>Arwin&apos;s Furniture Store</h1>
-        <div className="cart-badge">🛒 {cartCount}</div>
+        <Link to="/" className="brand">
+          Arwin&apos;s Furniture Store
+        </Link>
+
+        <nav className="nav">
+          <Link to="/" className="nav-link">
+            Shop
+          </Link>
+          <Link to="/cart" className="nav-link cart-link">
+            🛒 {cartCount}
+          </Link>
+        </nav>
       </header>
 
-      <Controls
-        query={query}
-        onQueryChange={setQuery}
-        category={category}
-        onCategoryChange={setCategory}
-        sort={sort}
-        onSortChange={setSort}
-        categories={categories}
-      />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Home
+              products={products}
+              cart={cart}
+              onAdd={addToCart}
+              onRemove={removeFromCart}
+              subtotal={subtotal}
+              tax={tax}
+              shipping={shipping}
+              total={total}
+              onClearCart={clearCart}
+            />
+          }
+        />
 
-      <div className="layout">
-        <div>
-          <div className="products-grid">
-            {visibleProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                quantity={cart[product.id] ?? 0}
-                onAdd={() => addToCart(product.id)}
-                onRemove={() => removeFromCart(product.id)}
-              />
-            ))}
-          </div>
+        <Route
+          path="/product/:id"
+          element={
+            <ProductDetails
+              products={products}
+              cart={cart}
+              onAdd={addToCart}
+              onRemove={removeFromCart}
+            />
+          }
+        />
 
-          {visibleProducts.length === 0 && (
-            <p className="empty">No products match your search.</p>
-          )}
-        </div>
-
-        <div className="sidebar">
-          <CartSummary
-            subtotal={subtotal}
-            tax={tax}
-            shipping={shipping}
-            total={total}
-            onClearCart={clearCart}
-          />
-        </div>
-      </div>
+        <Route
+          path="/cart"
+          element={
+            <CartPage
+              products={products}
+              cart={cart}
+              onAdd={addToCart}
+              onRemove={removeFromCart}
+              subtotal={subtotal}
+              tax={tax}
+              shipping={shipping}
+              total={total}
+              onClearCart={clearCart}
+            />
+          }
+        />
+      </Routes>
     </div>
   );
 }
 
 export default App;
-
