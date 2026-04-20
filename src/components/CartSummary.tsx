@@ -1,6 +1,20 @@
 import "./CartSummary.css";
 
-function CartSummary({ subtotal, tax, shipping, total, onClearCart }) {
+interface CartSummaryProps {
+  subtotal: number;
+  tax: number;
+  shipping: number;
+  total: number;
+  onClearCart: () => void;
+}
+
+function CartSummary({
+  subtotal,
+  tax,
+  shipping,
+  total,
+  onClearCart,
+}: CartSummaryProps) {
   return (
     <div className="cart-summary">
       <h2 className="cart-summary__title">Cart Summary</h2>

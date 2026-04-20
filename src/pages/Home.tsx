@@ -1,17 +1,19 @@
 import { useMemo, useState } from "react";
 import ProductCard from "../components/ProductCard";
-
 import Controls from "../components/Controls";
+import type { Cart, Product } from "../types";
 
-function Home({
-  products,
-  cart,
-  onAdd,
-  onRemove,
-}) {
-  const [query, setQuery] = useState("");
-  const [category, setCategory] = useState("All");
-  const [sort, setSort] = useState("featured");
+interface HomeProps {
+  products: Product[];
+  cart: Cart;
+  onAdd: (productId: number) => void;
+  onRemove: (productId: number) => void;
+}
+
+function Home({ products, cart, onAdd, onRemove }: HomeProps) {
+  const [query, setQuery] = useState<string>("");
+  const [category, setCategory] = useState<string>("All");
+  const [sort, setSort] = useState<string>("featured");
 
   const categories = useMemo(() => {
     const set = new Set(products.map((p) => p.category));
@@ -31,9 +33,13 @@ function Home({
       return matchesCategory && matchesQuery;
     });
 
-    if (sort === "price-asc") result = [...result].sort((a, b) => a.price - b.price);
-    if (sort === "price-desc") result = [...result].sort((a, b) => b.price - a.price);
-    if (sort === "name-asc") result = [...result].sort((a, b) => a.name.localeCompare(b.name));
+    if (sort === "price-asc") {
+      result = [...result].sort((a, b) => a.price - b.price);
+    } else if (sort === "price-desc") {
+      result = [...result].sort((a, b) => b.price - a.price);
+    } else if (sort === "name-asc") {
+      result = [...result].sort((a, b) => a.name.localeCompare(b.name));
+    }
 
     return result;
   }, [products, query, category, sort]);
@@ -70,7 +76,6 @@ function Home({
       )}
     </div>
   );
-
 }
 
 export default Home;

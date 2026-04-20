@@ -1,7 +1,15 @@
 import "./ProductCard.css";
 import { Link } from "react-router-dom";
+import type { Product } from "../types";
 
-function ProductCard({ product, quantity, onAdd, onRemove }) {
+interface ProductCardProps {
+  product: Product;
+  quantity: number;
+  onAdd: () => void;
+  onRemove: () => void;
+}
+
+function ProductCard({ product, quantity, onAdd, onRemove }: ProductCardProps) {
   return (
     <div className="product-card">
       <Link to={`/product/${product.id}`} className="product-link">

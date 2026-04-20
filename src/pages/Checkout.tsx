@@ -1,11 +1,46 @@
 import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import type { Cart, Product } from "../types";
 
-function Checkout({ products, cart, subtotal, tax, shipping, total, onClearCart }) {
+interface CheckoutProps {
+  products: Product[];
+  cart: Cart;
+  subtotal: number;
+  tax: number;
+  shipping: number;
+  total: number;
+  onClearCart: () => void;
+}
+
+interface CheckoutForm {
+  fullName: string;
+  email: string;
+  address: string;
+  city: string;
+  postal: string;
+}
+
+interface CheckoutErrors {
+  fullName?: string;
+  email?: string;
+  address?: string;
+  city?: string;
+  postal?: string;
+  cart?: string;
+}
+
+function Checkout({
+  products,
+  cart,
+  subtotal,
+  tax,
+  shipping,
+  total,
+  onClearCart,
+}: CheckoutProps) {
   const navigate = useNavigate();
 
-  // Simple form state
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<CheckoutForm>({
     fullName: "",
     email: "",
     address: "",
@@ -13,9 +48,8 @@ function Checkout({ products, cart, subtotal, tax, shipping, total, onClearCart 
     postal: "",
   });
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<CheckoutErrors>({});
 
-  // Build cart line items for summary
   const items = useMemo(() => {
     return Object.entries(cart)
       .map(([productId, qty]) => {
@@ -23,15 +57,15 @@ function Checkout({ products, cart, subtotal, tax, shipping, total, onClearCart 
         if (!product) return null;
         return { product, qty };
       })
-      .filter(Boolean);
+      .filter((item): item is { product: Product; qty: number } => item !== null);
   }, [cart, products]);
 
-  function onChange(field, value) {
+  function onChange(field: keyof CheckoutForm, value: string): void {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
 
-  function validate() {
-    const nextErrors = {};
+  function validate(): boolean {
+    const nextErrors: CheckoutErrors = {};
 
     if (!form.fullName.trim()) nextErrors.fullName = "Full name is required.";
     if (!form.email.trim()) nextErrors.email = "Email is required.";
@@ -39,29 +73,26 @@ function Checkout({ products, cart, subtotal, tax, shipping, total, onClearCart 
     if (!form.address.trim()) nextErrors.address = "Address is required.";
     if (!form.city.trim()) nextErrors.city = "City is required.";
     if (!form.postal.trim()) nextErrors.postal = "Postal code is required.";
-
-    // Cart must not be empty
     if (items.length === 0) nextErrors.cart = "Your cart is empty.";
 
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
   }
 
-  function placeOrder(e) {
+  function placeOrder(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
 
     if (!validate()) return;
 
-    // "Mock" order placement:
-    // - clear cart
-    // - go to success page
     onClearCart();
     navigate("/success");
   }
 
   return (
     <div className="checkout">
-      <Link to="/cart" className="back-link">← Back to cart</Link>
+      <Link to="/cart" className="back-link">
+        ← Back to cart
+      </Link>
 
       <h2 className="checkout-title">Checkout</h2>
 
@@ -142,7 +173,14 @@ function Checkout({ products, cart, subtotal, tax, shipping, total, onClearCart 
   );
 }
 
-function Field({ label, value, onChange, error }) {
+interface FieldProps {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  error?: string | undefined;
+}
+
+function Field({ label, value, onChange, error }: FieldProps) {
   return (
     <div className="field">
       <label className="field-label">{label}</label>
@@ -156,7 +194,12 @@ function Field({ label, value, onChange, error }) {
   );
 }
 
-function Row({ label, value }) {
+interface RowProps {
+  label: string;
+  value: number;
+}
+
+function Row({ label, value }: RowProps) {
   return (
     <div className="order-row">
       <span>{label}</span>

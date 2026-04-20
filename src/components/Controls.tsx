@@ -1,5 +1,15 @@
 import "./Controls.css";
 
+interface ControlsProps {
+  query: string;
+  onQueryChange: (value: string) => void;
+  category: string;
+  onCategoryChange: (value: string) => void;
+  sort: string;
+  onSortChange: (value: string) => void;
+  categories: string[];
+}
+
 function Controls({
   query,
   onQueryChange,
@@ -8,7 +18,7 @@ function Controls({
   sort,
   onSortChange,
   categories,
-}) {
+}: ControlsProps) {
   return (
     <div className="controls">
       <div className="control">

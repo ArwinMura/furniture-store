@@ -1,7 +1,20 @@
 import { Link, useParams } from "react-router-dom";
+import type { Cart, Product } from "../types";
 
-function ProductDetails({ products, cart, onAdd, onRemove }) {
-  const { id } = useParams();
+interface ProductDetailsProps {
+  products: Product[];
+  cart: Cart;
+  onAdd: (productId: number) => void;
+  onRemove: (productId: number) => void;
+}
+
+function ProductDetails({
+  products,
+  cart,
+  onAdd,
+  onRemove,
+}: ProductDetailsProps) {
+  const { id } = useParams<{ id: string }>();
   const product = products.find((p) => p.id === Number(id));
 
   if (!product) {
@@ -17,7 +30,9 @@ function ProductDetails({ products, cart, onAdd, onRemove }) {
 
   return (
     <div className="details">
-      <Link to="/" className="back-link">← Back</Link>
+      <Link to="/" className="back-link">
+        ← Back
+      </Link>
 
       <div className="details-card">
         <img className="details-img" src={product.image} alt={product.name} />
