@@ -1,19 +1,40 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import Controls from "../components/Controls";
 import type { Cart, Product } from "../types";
+import { fetchProducts } from "../services/api";
 
 interface HomeProps {
-  products: Product[];
   cart: Cart;
   onAdd: (productId: number) => void;
   onRemove: (productId: number) => void;
 }
 
-function Home({ products, cart, onAdd, onRemove }: HomeProps) {
+function Home({ cart, onAdd, onRemove }: HomeProps) {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>("");
+
   const [query, setQuery] = useState<string>("");
   const [category, setCategory] = useState<string>("All");
   const [sort, setSort] = useState<string>("featured");
+
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        setLoading(true);
+        setError("");
+        const data = await fetchProducts();
+        setProducts(data);
+      } catch (err) {
+        setError("Could not load products.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadProducts();
+  }, []);
 
   const categories = useMemo(() => {
     const set = new Set(products.map((p) => p.category));
@@ -43,6 +64,14 @@ function Home({ products, cart, onAdd, onRemove }: HomeProps) {
 
     return result;
   }, [products, query, category, sort]);
+
+  if (loading) {
+    return <p>Loading products...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
 
   return (
     <div>

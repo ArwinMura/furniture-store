@@ -4,7 +4,7 @@ export interface Product {
     price: number;
     category: string;
     description: string;
-    image: string;
+    imageUrl: string;
   }
 
   export type Cart = Record<number, number>;

@@ -50,7 +50,7 @@ function CartPage({
           <div className="cart-list">
             {cartItems.map(({ product, qty }) => (
               <div key={product.id} className="cart-item">
-                <img className="cart-item__img" src={product.image} alt={product.name} />
+                <img className="cart-item__img" src={product.imageUrl} alt={product.name} />
                 <div className="cart-item__info">
                   <Link to={`/product/${product.id}`} className="product-link">
                     <strong>{product.name}</strong>

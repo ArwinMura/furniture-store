@@ -13,7 +13,7 @@ function ProductCard({ product, quantity, onAdd, onRemove }: ProductCardProps) {
   return (
     <div className="product-card">
       <Link to={`/product/${product.id}`} className="product-link">
-        <img src={product.image} alt={product.name} className="product-image" />
+        <img src={product.imageUrl} alt={product.name} className="product-image" />
       </Link>
 
       <div className="product-body">

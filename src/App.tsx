@@ -104,7 +104,6 @@ function App() {
           path="/"
           element={
             <Home
-              products={products}
               cart={cart}
               onAdd={addToCart}
               onRemove={removeFromCart}

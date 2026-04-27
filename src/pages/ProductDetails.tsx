@@ -35,7 +35,7 @@ function ProductDetails({
       </Link>
 
       <div className="details-card">
-        <img className="details-img" src={product.image} alt={product.name} />
+        <img className="details-img" src={product.imageUrl} alt={product.name} />
 
         <div className="details-body">
           <h2 className="details-title">{product.name}</h2>
