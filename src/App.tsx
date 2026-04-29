@@ -115,7 +115,6 @@ function App() {
           path="/product/:id"
           element={
             <ProductDetails
-              products={products}
               cart={cart}
               onAdd={addToCart}
               onRemove={removeFromCart}
