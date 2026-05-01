@@ -47,29 +47,48 @@ function CartPage({
             </Link>
           </div>
         ) : (
-          <div className="cart-list">
-            {cartItems.map(({ product, qty }) => (
-              <div key={product.id} className="cart-item">
-                <img className="cart-item__img" src={product.imageUrl} alt={product.name} />
-                <div className="cart-item__info">
-                  <Link to={`/product/${product.id}`} className="product-link">
-                    <strong>{product.name}</strong>
-                  </Link>
-                  <div style={{ color: "#555" }}>${product.price}</div>
-                </div>
+          <>
+            <div className="cart-list">
+              {cartItems.map(({ product, qty }) => (
+                <div key={product.id} className="cart-item">
+                  <img
+                    className="cart-item__img"
+                    src={product.imageUrl}
+                    alt={product.name}
+                  />
 
-                <div className="qty-controls">
-                  <button className="qty-btn" onClick={() => onRemove(product.id)} type="button">
-                    −
-                  </button>
-                  <span className="qty-number">{qty}</span>
-                  <button className="qty-btn primary" onClick={() => onAdd(product.id)} type="button">
-                    +
-                  </button>
+                  <div className="cart-item__info">
+                    <Link to={`/product/${product.id}`} className="product-link">
+                      <strong>{product.name}</strong>
+                    </Link>
+                    <div style={{ color: "#555" }}>${product.price}</div>
+                  </div>
+
+                  <div className="qty-controls">
+                    <button
+                      className="qty-btn"
+                      onClick={() => onRemove(product.id)}
+                      type="button"
+                    >
+                      −
+                    </button>
+                    <span className="qty-number">{qty}</span>
+                    <button
+                      className="qty-btn primary"
+                      onClick={() => onAdd(product.id)}
+                      type="button"
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+
+            <Link to="/checkout" className="checkout-btn">
+              Go to Checkout
+            </Link>
+          </>
         )}
       </div>
 

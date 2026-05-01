@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import type { Cart, Product } from "../types";
+import { createOrder } from "../services/api";
 
 interface CheckoutProps {
   products: Product[];
@@ -60,6 +61,9 @@ function Checkout({
       .filter((item): item is { product: Product; qty: number } => item !== null);
   }, [cart, products]);
 
+  const [submitError, setSubmitError] = useState<string>("");
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
   function onChange(field: keyof CheckoutForm, value: string): void {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
@@ -79,13 +83,36 @@ function Checkout({
     return Object.keys(nextErrors).length === 0;
   }
 
-  function placeOrder(e: React.FormEvent<HTMLFormElement>): void {
+  async function placeOrder(e: React.FormEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault();
 
     if (!validate()) return;
 
-    onClearCart();
-    navigate("/success");
+    try {
+      setIsSubmitting(true);
+      setSubmitError("");
+
+      const orderPayload = {
+        customerName: form.fullName,
+        email: form.email,
+        address: form.address,
+        city: form.city,
+        postalCode: form.postal,
+        items: items.map(({ product, qty }) => ({
+          productId: product.id,
+          quantity: qty,
+        })),
+      };
+
+      await createOrder(orderPayload);
+
+      onClearCart();
+      navigate("/success");
+    } catch {
+      setSubmitError("Could not place order. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -97,6 +124,7 @@ function Checkout({
       <h2 className="checkout-title">Checkout</h2>
 
       {errors.cart && <p className="error-text">{errors.cart}</p>}
+      {submitError && <p className="error-text">{submitError}</p>}
 
       <div className="checkout-layout">
         <form className="checkout-form" onSubmit={placeOrder}>
@@ -136,8 +164,8 @@ function Checkout({
             />
           </div>
 
-          <button className="place-order-btn" type="submit">
-            Place Order
+          <button className="place-order-btn" type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Placing Order..." : "Place Order"}
           </button>
         </form>
 
