@@ -40,7 +40,7 @@ public class OrderService {
 
         for (CreateOrderItemRequest itemRequest : request.getItems()) {
             Product product = productRepository.findById(itemRequest.getProductId())
-                    .orElseThrow(() -> new RuntimeException("Product not found: " + itemRequest.getProductId()));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid product ID: " + itemRequest.getProductId()));
 
             BigDecimal price = BigDecimal.valueOf(product.getPrice());
             BigDecimal quantity = BigDecimal.valueOf(itemRequest.getQuantity());

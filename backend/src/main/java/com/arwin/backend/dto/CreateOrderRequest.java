@@ -1,14 +1,27 @@
 package com.arwin.backend.dto;
 
+import jakarta.validation.constraints.*;
 import java.util.List;
 
 public class CreateOrderRequest {
 
+    @NotBlank(message = "Name is required")
     private String customerName;
+
+    @Email(message = "Invalid email")
+    @NotBlank(message = "Email is required")
     private String email;
+
+    @NotBlank(message = "Address is required")
     private String address;
+
+    @NotBlank(message = "City is required")
     private String city;
+
+    @NotBlank(message = "Postal code is required")
     private String postalCode;
+
+    @NotEmpty(message = "Cart cannot be empty")
     private List<CreateOrderItemRequest> items;
 
     public CreateOrderRequest() {

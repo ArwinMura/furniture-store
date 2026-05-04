@@ -106,10 +106,20 @@ function Checkout({
 
       await createOrder(orderPayload);
 
+      setForm({
+        fullName: "",
+        email: "",
+        address: "",
+        city: "",
+        postal: "",
+      });
+
       onClearCart();
       navigate("/success");
-    } catch {
-      setSubmitError("Could not place order. Please try again.");
+    } catch (err: any) {
+      setSubmitError(
+        err?.message || "Something went wrong. Please try again."
+      );
     } finally {
       setIsSubmitting(false);
     }
