@@ -2,16 +2,18 @@ import "./App.css";
 import { Link, NavLink, Route, Routes } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 
-import products from "./data/products";
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
 import CartPage from "./pages/CartPage";
 import Checkout from "./pages/Checkout";
 import Success from "./pages/Success";
 import NotFound from "./pages/NotFound";
-import type { Cart } from "./types";
+import { fetchProducts } from "./services/api";
+import type { Cart, Product } from "./types";
 
 function App() {
+  const [products, setProducts] = useState<Product[]>([]);
+
   const [cart, setCart] = useState<Cart>(() => {
     try {
       const saved = localStorage.getItem("furnitureStoreCart");
@@ -20,6 +22,19 @@ function App() {
       return {};
     }
   });
+
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        const data = await fetchProducts();
+        setProducts(data);
+      } catch {
+        console.error("Failed to load products in App");
+      }
+    }
+
+    loadProducts();
+  }, []);
 
   function addToCart(productId: number): void {
     setCart((prev) => {
@@ -59,7 +74,7 @@ function App() {
       const product = products.find((p) => p.id === Number(productId));
       return product ? sum + product.price * qty : sum;
     }, 0);
-  }, [cart]);
+  }, [cart, products]);
 
   const tax = useMemo(() => subtotal * 0.13, [subtotal]);
 
@@ -102,13 +117,7 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={
-            <Home
-              cart={cart}
-              onAdd={addToCart}
-              onRemove={removeFromCart}
-            />
-          }
+          element={<Home cart={cart} onAdd={addToCart} onRemove={removeFromCart} />}
         />
 
         <Route
