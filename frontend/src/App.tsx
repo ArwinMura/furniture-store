@@ -88,9 +88,11 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <Link to="/" className="brand">
-          Arwin&apos;s Furniture Store
-        </Link>
+        <div className="nav-left">
+          <Link to="/" className="brand">
+            Arwin's Furniture
+          </Link>
+        </div>
 
         <nav className="nav">
           <NavLink
@@ -100,7 +102,7 @@ function App() {
               isActive ? "nav-link nav-link--active" : "nav-link"
             }
           >
-            Shop
+            Product
           </NavLink>
 
           <NavLink
@@ -109,7 +111,7 @@ function App() {
               isActive ? "nav-link nav-link--active" : "nav-link"
             }
           >
-            🛒 {cartCount}
+            Cart ({cartCount})
           </NavLink>
         </nav>
       </header>

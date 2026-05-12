@@ -15,8 +15,12 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
-  gap: 12px;
+  padding: 18px 32px;
+  border-bottom: 1px solid #eaeaea;
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .app-header h1 {
@@ -66,26 +70,29 @@ body {
 }
 
 .brand {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
   text-decoration: none;
-  color: inherit;
-  font-weight: 900;
-  font-size: 18px;
+  color: #111;
 }
 
 .nav {
   display: flex;
-  gap: 14px;
+  gap: 28px;
   align-items: center;
 }
 
 .nav-link {
   text-decoration: none;
-  color: #111;
-  font-weight: 700;
+  color: #555;
+  font-weight: 500;
+  font-size: 14px;
+  transition: color 0.2s ease;
 }
 
 .nav-link:hover {
-  text-decoration: underline;
+  color: #000;
 }
 
 .details {
@@ -336,8 +343,8 @@ body {
 
 /* Active nav link */
 .nav-link--active {
-  text-decoration: underline;
-  text-underline-offset: 4px;
+  color: #000;
+  font-weight: 700;
 }
 
 /* Empty states */
