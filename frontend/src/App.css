@@ -95,6 +95,61 @@ body {
   color: #000;
 }
 
+.hero {
+  background: #fff;
+  text-align: center;
+  padding: 96px 24px 72px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.hero-eyebrow {
+  margin: 0 0 14px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: #777;
+}
+
+.hero-title {
+  max-width: 900px;
+  margin: 0 auto;
+  font-size: clamp(38px, 6vw, 72px);
+  line-height: 1.05;
+  letter-spacing: -2px;
+  font-weight: 800;
+  color: #050505;
+}
+
+.hero-subtitle {
+  max-width: 620px;
+  margin: 22px auto 0;
+  color: #666;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.hero-button {
+  display: inline-block;
+  margin-top: 32px;
+  background: #050505;
+  color: white;
+  padding: 14px 34px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 800;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.hero-button:hover {
+  transform: translateY(-2px);
+  opacity: 0.88;
+}
+
+.products-section {
+  padding-top: 48px;
+}
+
 .details {
   padding-top: 6px;
 }

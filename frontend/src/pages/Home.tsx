@@ -3,6 +3,7 @@ import ProductCard from "../components/ProductCard";
 import Controls from "../components/Controls";
 import type { Cart, Product } from "../types";
 import { fetchProducts } from "../services/api";
+import Hero from "../components/Hero";
 
 interface HomeProps {
   cart: Cart;
@@ -75,34 +76,38 @@ function Home({ cart, onAdd, onRemove }: HomeProps) {
 
   return (
     <div>
-      <Controls
-        query={query}
-        onQueryChange={setQuery}
-        category={category}
-        onCategoryChange={setCategory}
-        sort={sort}
-        onSortChange={setSort}
-        categories={categories}
-      />
+      <Hero />
 
-      <div className="products-grid">
-        {visibleProducts.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            quantity={cart[product.id] ?? 0}
-            onAdd={() => onAdd(product.id)}
-            onRemove={() => onRemove(product.id)}
-          />
-        ))}
-      </div>
+      <section id="products" className="products-section">
+        <Controls
+          query={query}
+          onQueryChange={setQuery}
+          category={category}
+          onCategoryChange={setCategory}
+          sort={sort}
+          onSortChange={setSort}
+          categories={categories}
+        />
 
-      {visibleProducts.length === 0 && (
-        <div className="empty">
-          <h3>No results found</h3>
-          <p>Try clearing the search or selecting “All” categories.</p>
+        <div className="products-grid">
+          {visibleProducts.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              quantity={cart[product.id] ?? 0}
+              onAdd={() => onAdd(product.id)}
+              onRemove={() => onRemove(product.id)}
+            />
+          ))}
         </div>
-      )}
+
+        {visibleProducts.length === 0 && (
+          <div className="empty">
+            <h3>No results found</h3>
+            <p>Try clearing the search or selecting “All” categories.</p>
+          </div>
+        )}
+      </section>
     </div>
   );
 }
