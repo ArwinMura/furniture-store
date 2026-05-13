@@ -79,6 +79,11 @@ function Home({ cart, onAdd, onRemove }: HomeProps) {
       <Hero />
 
       <section id="products" className="products-section">
+        <div className="products-header">
+          <h2>Our Products</h2>
+          <p>Browse our curated collection of modern furniture</p>
+        </div>
+
         <Controls
           query={query}
           onQueryChange={setQuery}
