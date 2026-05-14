@@ -442,3 +442,7 @@ body {
   color: #666;
   font-size: 14px;
 }
+
+.controls-wrap {
+  padding: 0 24px;
+}

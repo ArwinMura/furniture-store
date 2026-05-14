@@ -1,46 +1,48 @@
 .controls {
-    display: grid;
-    grid-template-columns: 1fr 220px 220px;
-    gap: 12px;
-    margin-bottom: 18px;
-    align-items: end;
-  }
+  display: grid;
+  grid-template-columns: 1fr 220px 220px;
+  gap: 16px;
+  padding: 20px 24px;
+  margin: 0 0 24px;
+  background: white;
+  border: 1px solid #eeeeee;
+  border-radius: 18px;
+}
 
-  .control {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
-  .control__label {
-    font-size: 12px;
-    font-weight: 700;
-    color: #444;
-  }
+.control__label {
+  font-size: 12px;
+  font-weight: 800;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
 
-  .control__input,
-  .control__select {
-    border: 1px solid #ddd;
-    background: white;
-    border-radius: 12px;
-    padding: 10px 12px;
-    font-size: 14px;
-    outline: none;
-  }
+.control__input,
+.control__select {
+  width: 100%;
+  border: 1px solid #dddddd;
+  background: #fafafa;
+  border-radius: 999px;
+  padding: 12px 16px;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+}
 
-  .control__input:focus,
-  .control__select:focus {
-    border-color: #bbb;
-  }
+.control__input:focus,
+.control__select:focus {
+  border-color: #111;
+  background: white;
+}
 
-  @media (max-width: 900px) {
-    .controls {
-      grid-template-columns: 1fr 1fr;
-    }
+@media (max-width: 900px) {
+  .controls {
+    grid-template-columns: 1fr;
   }
-
-  @media (max-width: 600px) {
-    .controls {
-      grid-template-columns: 1fr;
-    }
-  }
+}

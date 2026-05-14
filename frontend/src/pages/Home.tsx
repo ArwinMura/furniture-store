@@ -84,15 +84,17 @@ function Home({ cart, onAdd, onRemove }: HomeProps) {
           <p>Browse our curated collection of modern furniture</p>
         </div>
 
-        <Controls
-          query={query}
-          onQueryChange={setQuery}
-          category={category}
-          onCategoryChange={setCategory}
-          sort={sort}
-          onSortChange={setSort}
-          categories={categories}
-        />
+        <div className="controls-wrap">
+          <Controls
+            query={query}
+            onQueryChange={setQuery}
+            category={category}
+            onCategoryChange={setCategory}
+            sort={sort}
+            onSortChange={setSort}
+            categories={categories}
+          />
+        </div>
 
         <div className="products-grid">
           {visibleProducts.map((product) => (
